@@ -13,8 +13,10 @@ This addon loads colormaps found in two python modules. Thus, these two modules 
 
 ## Usage
 Find it in the tools section of the shader menu
+
 ![image](https://user-images.githubusercontent.com/76405582/182595555-5b345980-9d05-4f3b-812f-20368df0d2e3.png)
 
 You can update ColorRamp nodes when one is selected
+
 ![image](https://user-images.githubusercontent.com/76405582/182595655-afbbf15e-5dee-4e59-a838-54eeeafc17ab.png)
 
