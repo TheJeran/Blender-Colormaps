@@ -18,5 +18,9 @@ Find it in the tools section of the shader menu
 
 You can update ColorRamp nodes when one is selected
 
-![image](https://user-images.githubusercontent.com/76405582/182595655-afbbf15e-5dee-4e59-a838-54eeeafc17ab.png)
+<img width="517" alt="image" src="https://github.com/ArtemKirsanov/Blender-Colormaps/assets/72463859/979fffec-886b-40fc-a438-b4ddc5237a84">
+
+Gamma-correction ensures that colors in Blender are perceived the same way as in matplotlib
+
+<img width="628" alt="image" src="https://github.com/ArtemKirsanov/Blender-Colormaps/assets/72463859/20f922e2-dbc3-4d61-a91f-fb0d3c8b811b">
 
