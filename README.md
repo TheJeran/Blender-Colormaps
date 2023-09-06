@@ -5,22 +5,29 @@
 This is an addon to quickly and efficiently load colormaps into the colorramp node in Blender
 
 ## Installation
-This addon loads colormaps found in two python modules. Thus, these two modules need to be installed into blender native python.
-* Migrate to your blender install in your console
-* execute **python.exe -m pip install matplotlib cmocean**
-* ![image](https://user-images.githubusercontent.com/76405582/182594708-de9a8a89-9d34-4f38-92d4-4dc7d014ae3c.png)
-* Install the .zip from this repository in Blender
+Simply install the .zip from this repository in Blender. After activating the addon you will be notified if you need to install some dependencies.
+![missing_dependencies](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/15325fa0-3fa5-40d5-9861-1a1e5b567688)
+
+
 
 ## Usage
 Find it in the tools section of the shader menu
 
-![image](https://user-images.githubusercontent.com/76405582/182595555-5b345980-9d05-4f3b-812f-20368df0d2e3.png)
+![image](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/01d51e70-40ec-4c99-9eea-933bf88df7db)
+
+Currently there are three color libraries: [Matplotlib](https://matplotlib.org/stable/tutorials/colors/colormaps.html), [Colorcet](https://colorcet.holoviz.org/user_guide/index.html), and [Cmocean](https://matplotlib.org/cmocean/)
+Please create an issue if you know of a good library that's easy to implement.
+
+![image](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/61aaec82-a380-40ea-b77e-52f25517fb2b)
+
 
 You can update ColorRamp nodes when one is selected
 
-<img width="517" alt="image" src="https://github.com/ArtemKirsanov/Blender-Colormaps/assets/72463859/979fffec-886b-40fc-a438-b4ddc5237a84">
+![image](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/87eff42a-fe24-4102-96b9-e32a6a6fdd94)
+
 
 Gamma-correction ensures that colors in Blender are perceived the same way as in matplotlib
 
 <img width="628" alt="image" src="https://github.com/ArtemKirsanov/Blender-Colormaps/assets/72463859/20f922e2-dbc3-4d61-a91f-fb0d3c8b811b">
 
+**note:** The Color Maps dropdown will be blank immediately after install. Simply re-select/choose another color library to repopulate it. This is a quirk that only occurs after install
