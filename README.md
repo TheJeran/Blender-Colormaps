@@ -6,6 +6,8 @@ This is an addon to quickly and efficiently load colormaps into the colorramp no
 
 ## Installation
 Simply install the .zip from this repository in Blender. After activating the addon you will be notified if you need to install some dependencies.
+
+
 ![missing_dependencies](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/15325fa0-3fa5-40d5-9861-1a1e5b567688)
 
 
