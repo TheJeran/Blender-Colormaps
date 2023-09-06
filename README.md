@@ -31,3 +31,13 @@ Gamma-correction ensures that colors in Blender are perceived the same way as in
 <img width="628" alt="image" src="https://github.com/ArtemKirsanov/Blender-Colormaps/assets/72463859/20f922e2-dbc3-4d61-a91f-fb0d3c8b811b">
 
 **note:** The Color Maps dropdown will be blank immediately after install. Simply re-select/choose another color library to repopulate it. This is a quirk that only occurs after install
+
+
+## Examples
+![german_tree_ages_credits](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/e043d7d0-66ac-444e-8b4a-60a599b2f1ef)
+![hairs](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/62ebb1e6-7389-41f4-9457-88355e84cc61)
+![pole_year0022](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/6251b49e-1c4e-4697-b843-97862a45d811)
+
+
+
+
