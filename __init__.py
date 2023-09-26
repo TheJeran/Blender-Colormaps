@@ -178,6 +178,7 @@ class SNA_PT_COLORMAPS_C3E26(bpy.types.Panel):
         return modifier is not None and (
             modifier.type == 'NODES'
             and bpy.context.area.ui_type == 'GeometryNodeTree'
+            and modifier.node_group is not None
         )
 
     def draw_header(self, context):
