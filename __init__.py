@@ -85,12 +85,18 @@ def sna_cmaps_enum_items(self, context):
 def sna_create_colorramp_0B482():
     steps = bpy.data.scenes['Scene'].sna_colormap_steps
     cmap_name = bpy.data.scenes['Scene'].sna_cmaps
-    import matplotlib
-    material_name = bpy.context.active_object.active_material.name
-    material = bpy.data.materials[material_name]
-    cmap = matplotlib.cm.get_cmap(cmap_name)
-    nodes = material.node_tree.nodes
-    cramp = nodes.new(type='ShaderNodeValToRGB')
+
+    material = bpy.context.active_object.active_material
+    modifier = bpy.context.object.modifiers.active
+    if material is not None and bpy.context.area.ui_type == 'ShaderNodeTree':
+        nodes = material.node_tree.nodes
+        cramp = nodes.new(type='ShaderNodeValToRGB')
+    elif modifier is not None and bpy.context.area.ui_type == 'GeometryNodeTree':
+        if modifier.type == 'NODES':
+            nodes = modifier.node_group.nodes
+            cramp = nodes.new(type='ShaderNodeValToRGB')
+
+    cmap = plt.get_cmap(cmap_name)
     el = cramp.color_ramp.elements
     dis = 1/(steps-1)
     x   = dis
@@ -100,18 +106,15 @@ def sna_create_colorramp_0B482():
     for e in el:
         pos = e.position
         e.color = to_blender_color(cmap(pos))
-    return
+    cramp.label = cmap_name
 
 
 def sna_update_color_map_5D6A6():
     steps = bpy.data.scenes['Scene'].sna_colormap_steps
     cmap_name = bpy.data.scenes['Scene'].sna_cmaps
-    node_name = bpy.context.active_node.name
-    import matplotlib
-    material_name = bpy.context.active_object.active_material.name
-    material = bpy.data.materials[material_name]
-    cmap = matplotlib.cm.get_cmap(cmap_name)
-    cramp = bpy.data.materials[material_name].node_tree.nodes[node_name]
+
+    cramp = bpy.context.active_node
+    cmap = plt.get_cmap(cmap_name)
     el = cramp.color_ramp.elements
     count=0
     for idx in range(len(el.values())-1):
@@ -126,7 +129,6 @@ def sna_update_color_map_5D6A6():
         pos = e.position
         e.color = to_blender_color(cmap(pos))
     cramp.label = cmap_name
-    return
 
 
 class SNA_OT_Update_Colorramp_8Fdfb(bpy.types.Operator):
@@ -177,7 +179,15 @@ class SNA_PT_COLORMAPS_C3E26(bpy.types.Panel):
 
     @classmethod
     def poll(cls, context):
-        return not (((not property_exists("bpy.context.active_object.active_material.node_tree", globals(), locals())) or (bpy.context.area.ui_type != 'ShaderNodeTree')))
+        mat = context.object.active_material
+        if mat is not None:
+            if mat.use_nodes and bpy.context.area.ui_type == 'ShaderNodeTree':
+                return True
+        modifier = context.object.modifiers.active
+        if modifier is not None:
+            if modifier.type == 'NODES' and bpy.context.area.ui_type == 'GeometryNodeTree':
+                return True
+        return False
 
     def draw_header(self, context):
         layout = self.layout
@@ -215,9 +225,10 @@ class SNA_PT_COLORMAPS_C3E26(bpy.types.Panel):
         split_20DBF.alignment = 'Expand'.upper()
         split_20DBF.label(text='Steps', icon_value=0)
         split_20DBF.prop(bpy.context.scene, 'sna_colormap_steps', text='', icon_value=0, emboss=True)
-        op = col_E8864.operator('sna.create_color_ramp_0dbb6', text='Create Color Ramp', icon_value=0, emboss=True, depress=False)
-        if ((bpy.context.active_node.type == 'VALTORGB') and bpy.context.active_node.select):
-            op = col_E8864.operator('sna.update_colorramp_8fdfb', text='Update Selected', icon_value=0, emboss=True, depress=False)
+        col_E8864.operator('sna.create_color_ramp_0dbb6', text='Create Color Ramp', icon_value=0, emboss=True, depress=False)
+        if bpy.context.active_node is not None:
+            if bpy.context.active_node.type == 'VALTORGB' and bpy.context.active_node.select:
+                col_E8864.operator('sna.update_colorramp_8fdfb', text='Update Selected', icon_value=0, emboss=True, depress=False)
 
 
 def register():
