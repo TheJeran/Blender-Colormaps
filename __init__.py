@@ -59,14 +59,6 @@ def make_enum_item(_id, name, descr, preview_id, uid):
     return _item_map[lookup]
 
 
-def property_exists(prop_path, glob, loc):
-    try:
-        eval(prop_path, glob, loc)
-        return True
-    except:
-        return False
-
-
 def sna_colormaps_E002E():
     cmaps = None
     import cmocean
