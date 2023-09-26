@@ -298,9 +298,8 @@ class SNA_PT_COLORMAPS_321D4(bpy.types.Panel):
         split_20DBF.label(text='Steps', icon_value=0)
         split_20DBF.prop(bpy.context.scene, 'sna_colormap_steps', text='', icon_value=0, emboss=True)
         col_F7EAC.operator('sna.create_color_ramp_0dbb6', text='Create Color Ramp', icon_value=0, emboss=True, depress=False)
-        if bpy.context.active_node is not None:
-            if bpy.context.active_node.type == 'VALTORGB' and bpy.context.active_node.select:
-                col_F7EAC.operator('sna.update_colorramp_8fdfb', text='Update Selected', icon_value=0, emboss=True, depress=False)
+        if bpy.context.active_node is not None and (bpy.context.active_node.type == 'VALTORGB' and bpy.context.active_node.select):
+            col_F7EAC.operator('sna.update_colorramp_8fdfb', text='Update Selected', icon_value=0, emboss=True, depress=False)
 
 
 def register():
