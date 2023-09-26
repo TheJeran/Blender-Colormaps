@@ -86,7 +86,6 @@ class SNA_OT_Install_Dependencies_E7270(bpy.types.Operator):
         return not False
 
     def execute(self, context):
-        import subprocess
         pyth_path = sys.executable
         for lib in ["matplotlib", "cmocean", "colorcet"]:
             subprocess.call([pyth_path, "-m","pip","install",lib])
@@ -101,30 +100,25 @@ class SNA_AddonPreferences_58A3E(bpy.types.AddonPreferences):
     bl_idname = 'blender_colormaps'
 
     def draw(self, context):
-        if not (False):
-            layout = self.layout 
-            if dependencies['sna_deps_installed']:
-                pass
-            else:
-                col_720D4 = layout.column(heading='', align=False)
-                col_720D4.alert = False
-                col_720D4.enabled = True
-                col_720D4.active = True
-                col_720D4.use_property_split = False
-                col_720D4.use_property_decorate = False
-                col_720D4.scale_x = 1.0
-                col_720D4.scale_y = 1.0
-                col_720D4.alignment = 'Expand'.upper()
-                if not True: col_720D4.operator_context = "EXEC_DEFAULT"
-                col_720D4.label(text='DEPENDENCIES MISSING', icon_value=778)
-                op = col_720D4.operator('sna.install_dependencies_e7270', text='Install Dependencies', icon_value=0, emboss=True, depress=False)
+        layout = self.layout
+        if not dependencies['sna_deps_installed']:
+            col_720D4 = layout.column(heading='', align=False)
+            col_720D4.alert = False
+            col_720D4.enabled = True
+            col_720D4.active = True
+            col_720D4.use_property_split = False
+            col_720D4.use_property_decorate = False
+            col_720D4.scale_x = 1.0
+            col_720D4.scale_y = 1.0
+            col_720D4.alignment = 'Expand'.upper()
+            col_720D4.label(text='DEPENDENCIES MISSING', icon_value=778)
+            col_720D4.operator('sna.install_dependencies_e7270', text='Install Dependencies', icon_value=0, emboss=True, depress=False)
 
 
 def sna_create_colorramp_0B482():
     steps = bpy.data.scenes['Scene'].sna_colormap_steps
-    cmap_name = bpy.context.scene.sna_cmaps
-    import sys
-    import numpy as np
+    cmap_name = bpy.data.scenes['Scene'].sna_cmaps
+
     material = bpy.context.active_object.active_material
     modifier = bpy.context.object.modifiers.active
     if material is not None and bpy.context.area.ui_type == 'ShaderNodeTree':
@@ -134,6 +128,7 @@ def sna_create_colorramp_0B482():
         if modifier.type == 'NODES':
             nodes = modifier.node_group.nodes
             cramp = nodes.new(type='ShaderNodeValToRGB')
+
     cmap = matplotlib.cm.get_cmap(cmap_name)
     el = cramp.color_ramp.elements
     dis = 1/(steps-1)
@@ -151,11 +146,9 @@ def sna_create_colorramp_0B482():
 def sna_update_color_map_5D6A6():
     steps = bpy.data.scenes['Scene'].sna_colormap_steps
     cmap_name = bpy.context.scene.sna_cmaps
-    node_name = bpy.context.active_node.name
-    import matplotlib
-    import numpy as np
-    cmap = matplotlib.cm.get_cmap(cmap_name)
+
     cramp = bpy.context.active_node
+    cmap = matplotlib.cm.get_cmap(cmap_name)
     el = cramp.color_ramp.elements
     count=0
     for idx in range(len(el.values())-1):
@@ -170,7 +163,6 @@ def sna_update_color_map_5D6A6():
         pos = e.position
         e.color = [i**2.2 for i in cmap(pos)]
     cramp.label = cmap_name
-    return
 
 
 class SNA_OT_Update_Colorramp_8Fdfb(bpy.types.Operator):
@@ -300,9 +292,9 @@ class SNA_PT_COLORMAPS_321D4(bpy.types.Panel):
         split_20DBF.alignment = 'Expand'.upper()
         split_20DBF.label(text='Steps', icon_value=0)
         split_20DBF.prop(bpy.context.scene, 'sna_colormap_steps', text='', icon_value=0, emboss=True)
-        op = col_F7EAC.operator('sna.create_color_ramp_0dbb6', text='Create Color Ramp', icon_value=0, emboss=True, depress=False)
-        if bpy.context.active_node is not None and ((bpy.context.active_node.type == 'VALTORGB') and bpy.context.active_node.select):
-            op = col_F7EAC.operator('sna.update_colorramp_8fdfb', text='Update Selected', icon_value=0, emboss=True, depress=False)
+        col_F7EAC.operator('sna.create_color_ramp_0dbb6', text='Create Color Ramp', icon_value=0, emboss=True, depress=False)
+        if bpy.context.active_node is not None and (bpy.context.active_node.type == 'VALTORGB' and bpy.context.active_node.select):
+            col_F7EAC.operator('sna.update_colorramp_8fdfb', text='Update Selected', icon_value=0, emboss=True, depress=False)
 
 
 def register():
