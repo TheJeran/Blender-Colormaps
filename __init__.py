@@ -35,7 +35,7 @@ from bpy.app.handlers import persistent
 good = True
 
 try:
-    import matplotlib.pyplot as plt
+    import matplotlib
     import cmocean
     import colorcet
 
@@ -61,7 +61,7 @@ def sna_update_sna_color_libraries_22719(self, context):
     sna_updated_prop = self.sna_color_libraries
     library = sna_updated_prop
     cmaps = None
-    cmaps = sorted(plt.colormaps(), key = lambda x: x.lower())
+    cmaps = sorted(matplotlib.colormaps(), key = lambda x: x.lower())
     options = ['matplotlib','colorcet','cmocean']
     cmos = [i for i in cmaps if 'cmo.' in i]
     cets = [i for i in cmaps if 'cet_' in i and not i.endswith('_r')]
@@ -86,7 +86,6 @@ class SNA_OT_Install_Dependencies_E7270(bpy.types.Operator):
         return not False
 
     def execute(self, context):
-        import subprocess
         pyth_path = sys.executable
         for lib in ["matplotlib", "cmocean", "colorcet"]:
             subprocess.call([pyth_path, "-m","pip","install",lib])
@@ -101,23 +100,19 @@ class SNA_AddonPreferences_58A3E(bpy.types.AddonPreferences):
     bl_idname = 'blender_colormaps'
 
     def draw(self, context):
-        if not (False):
-            layout = self.layout 
-            if dependencies['sna_deps_installed']:
-                pass
-            else:
-                col_720D4 = layout.column(heading='', align=False)
-                col_720D4.alert = False
-                col_720D4.enabled = True
-                col_720D4.active = True
-                col_720D4.use_property_split = False
-                col_720D4.use_property_decorate = False
-                col_720D4.scale_x = 1.0
-                col_720D4.scale_y = 1.0
-                col_720D4.alignment = 'Expand'.upper()
-                if not True: col_720D4.operator_context = "EXEC_DEFAULT"
-                col_720D4.label(text='DEPENDENCIES MISSING', icon_value=778)
-                op = col_720D4.operator('sna.install_dependencies_e7270', text='Install Dependencies', icon_value=0, emboss=True, depress=False)
+        layout = self.layout
+        if not dependencies['sna_deps_installed']:
+            col_720D4 = layout.column(heading='', align=False)
+            col_720D4.alert = False
+            col_720D4.enabled = True
+            col_720D4.active = True
+            col_720D4.use_property_split = False
+            col_720D4.use_property_decorate = False
+            col_720D4.scale_x = 1.0
+            col_720D4.scale_y = 1.0
+            col_720D4.alignment = 'Expand'.upper()
+            col_720D4.label(text='DEPENDENCIES MISSING', icon_value=778)
+            col_720D4.operator('sna.install_dependencies_e7270', text='Install Dependencies', icon_value=0, emboss=True, depress=False)
 
 
 def sna_create_colorramp_0B482():
@@ -134,7 +129,7 @@ def sna_create_colorramp_0B482():
             nodes = modifier.node_group.nodes
             cramp = nodes.new(type='ShaderNodeValToRGB')
 
-    cmap = plt.get_cmap(cmap_name)
+    cmap = matplotlib.get_cmap(cmap_name)
     el = cramp.color_ramp.elements
     dis = 1/(steps-1)
     x   = dis
@@ -153,7 +148,7 @@ def sna_update_color_map_5D6A6():
     cmap_name = bpy.context.scene.sna_cmaps
 
     cramp = bpy.context.active_node
-    cmap = plt.get_cmap(cmap_name)
+    cmap = matplotlib.get_cmap(cmap_name)
     el = cramp.color_ramp.elements
     count=0
     for idx in range(len(el.values())-1):
