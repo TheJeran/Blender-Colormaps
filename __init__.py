@@ -129,7 +129,7 @@ def sna_create_colorramp_0B482():
             nodes = modifier.node_group.nodes
             cramp = nodes.new(type='ShaderNodeValToRGB')
 
-    cmap = matplotlib.get_cmap(cmap_name)
+    cmap = matplotlib.cm.get_cmap(cmap_name)
     el = cramp.color_ramp.elements
     dis = 1/(steps-1)
     x   = dis
@@ -148,7 +148,7 @@ def sna_update_color_map_5D6A6():
     cmap_name = bpy.context.scene.sna_cmaps
 
     cramp = bpy.context.active_node
-    cmap = matplotlib.get_cmap(cmap_name)
+    cmap = matplotlib.cm.get_cmap(cmap_name)
     el = cramp.color_ramp.elements
     count=0
     for idx in range(len(el.values())-1):
