@@ -172,14 +172,13 @@ class SNA_PT_COLORMAPS_C3E26(bpy.types.Panel):
     @classmethod
     def poll(cls, context):
         mat = context.object.active_material
-        if mat is not None:
-            if mat.use_nodes and bpy.context.area.ui_type == 'ShaderNodeTree':
-                return True
+        if mat is not None and (mat.use_nodes and bpy.context.area.ui_type == 'ShaderNodeTree'):
+            return True
         modifier = context.object.modifiers.active
-        if modifier is not None:
-            if modifier.type == 'NODES' and bpy.context.area.ui_type == 'GeometryNodeTree':
-                return True
-        return False
+        return modifier is not None and (
+            modifier.type == 'NODES'
+            and bpy.context.area.ui_type == 'GeometryNodeTree'
+        )
 
     def draw_header(self, context):
         layout = self.layout
@@ -218,9 +217,8 @@ class SNA_PT_COLORMAPS_C3E26(bpy.types.Panel):
         split_20DBF.label(text='Steps', icon_value=0)
         split_20DBF.prop(bpy.context.scene, 'sna_colormap_steps', text='', icon_value=0, emboss=True)
         col_E8864.operator('sna.create_color_ramp_0dbb6', text='Create Color Ramp', icon_value=0, emboss=True, depress=False)
-        if bpy.context.active_node is not None:
-            if bpy.context.active_node.type == 'VALTORGB' and bpy.context.active_node.select:
-                col_E8864.operator('sna.update_colorramp_8fdfb', text='Update Selected', icon_value=0, emboss=True, depress=False)
+        if bpy.context.active_node is not None and (bpy.context.active_node.type == 'VALTORGB' and bpy.context.active_node.select):
+            col_E8864.operator('sna.update_colorramp_8fdfb', text='Update Selected', icon_value=0, emboss=True, depress=False)
 
 
 def register():
