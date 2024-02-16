@@ -17,10 +17,11 @@ Find it in the tools section of the shader menu
 
 ![image](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/01d51e70-40ec-4c99-9eea-933bf88df7db)
 
-Currently there are three color libraries: [Matplotlib](https://matplotlib.org/stable/tutorials/colors/colormaps.html), [Colorcet](https://colorcet.holoviz.org/user_guide/index.html), and [Cmocean](https://matplotlib.org/cmocean/)
+Currently there are three color libraries: [Matplotlib](https://matplotlib.org/stable/tutorials/colors/colormaps.html), [MetBrewer](https://github.com/BlakeRMills/MetBrewer), and [Cmocean](https://matplotlib.org/cmocean/)
 Please create an issue if you know of a good library that's easy to implement.
 
-![image](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/61aaec82-a380-40ea-b77e-52f25517fb2b)
+![image](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/c5c33fe4-afc7-4b84-b5c3-7433170de0e3)
+
 
 
 You can update ColorRamp nodes when one is selected
