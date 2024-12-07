@@ -12,9 +12,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 bl_info = {
-    "name" : "Blender Colors",
+    "name" : "Blender Colormaps",
     "author" : "Jeran Poehls", 
-    "description" : "Import Curated or custom colormaps into Blender",
+    "description" : "Import curated or custom colormaps into Blender",
     "blender" : (4, 0, 0),
     "version" : (1, 5, 0),
     "location" : "",
@@ -72,9 +72,9 @@ def make_enum_item(_id, name, descr, preview_id, uid):
     return _item_map[lookup]
 
 
-class SNA_PT_COLORMAPS_4CB30(bpy.types.Panel):
+class SNA_PT_COLORMAPS_3B067(bpy.types.Panel):
     bl_label = 'Colormaps'
-    bl_idname = 'SNA_PT_COLORMAPS_4CB30'
+    bl_idname = 'SNA_PT_COLORMAPS_3B067'
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'UI'
     bl_context = ''
@@ -101,7 +101,7 @@ class SNA_PT_COLORMAPS_4CB30(bpy.types.Panel):
         col_D76F1.scale_y = 1.0
         col_D76F1.alignment = 'Expand'.upper()
         col_D76F1.operator_context = "INVOKE_DEFAULT" if True else "EXEC_DEFAULT"
-        split_74CE5 = col_D76F1.split(factor=0.5, align=False)
+        split_74CE5 = col_D76F1.split(factor=0.4000000059604645, align=False)
         split_74CE5.alert = False
         split_74CE5.enabled = True
         split_74CE5.active = True
@@ -111,9 +111,20 @@ class SNA_PT_COLORMAPS_4CB30(bpy.types.Panel):
         split_74CE5.scale_y = 1.0
         split_74CE5.alignment = 'Expand'.upper()
         if not True: split_74CE5.operator_context = "EXEC_DEFAULT"
-        split_74CE5.label(text='Library', icon_value=0)
+        split_E80FD = split_74CE5.split(factor=0.7555555701255798, align=False)
+        split_E80FD.alert = False
+        split_E80FD.enabled = True
+        split_E80FD.active = True
+        split_E80FD.use_property_split = False
+        split_E80FD.use_property_decorate = False
+        split_E80FD.scale_x = 1.0
+        split_E80FD.scale_y = 1.0
+        split_E80FD.alignment = 'Expand'.upper()
+        if not True: split_E80FD.operator_context = "EXEC_DEFAULT"
+        split_E80FD.label(text='Library', icon_value=0)
+        op = split_E80FD.operator('sna.rescan_ad48f', text='', icon_value=105, emboss=True, depress=False)
         split_74CE5.prop(bpy.context.scene, 'sna_libraries', text='', icon_value=0, emboss=True)
-        split_0C2BA = col_D76F1.split(factor=0.5, align=False)
+        split_0C2BA = col_D76F1.split(factor=0.4000000059604645, align=False)
         split_0C2BA.alert = False
         split_0C2BA.enabled = True
         split_0C2BA.active = True
@@ -275,7 +286,7 @@ def parse_rgb_to_colormap(file_path):
 
 
 @persistent
-def load_pre_handler_CFC23(dummy):
+def load_post_handler_CFC23(dummy):
     cmaps_path = os.path.join(os.path.dirname(__file__), 'assets', 'colormaps')
     libraries = None
     files = os.listdir(cmaps_path)
@@ -290,6 +301,34 @@ def load_pre_handler_CFC23(dummy):
 def sna_libraries_enum_items(self, context):
     enum_items = blender_colormaps['sna_libraries']
     return [make_enum_item(item[0], item[1], item[2], item[3], i) for i, item in enumerate(enum_items)]
+
+
+class SNA_OT_Rescan_Ad48F(bpy.types.Operator):
+    bl_idname = "sna.rescan_ad48f"
+    bl_label = "Rescan"
+    bl_description = "Scan for color libraries"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        cmaps_path = os.path.join(os.path.dirname(__file__), 'assets', 'colormaps')
+        libraries = None
+        files = os.listdir(cmaps_path)
+        libraries = [i for i in files if os.path.isdir(f'{cmaps_path}/{i}')]
+        libraries = ['matplotlib']+libraries
+        blender_colormaps['sna_libraries'] = []
+        for i_3B670 in range(len(libraries)):
+            blender_colormaps['sna_libraries'].append([libraries[i_3B670], libraries[i_3B670], '', 0])
+        bpy.context.scene.sna_libraries = 'matplotlib'
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
 
 
 class SNA_AddonPreferences_94E08(bpy.types.AddonPreferences):
@@ -355,10 +394,11 @@ def register():
     bpy.types.Scene.sna_steps = bpy.props.IntProperty(name='Steps', description='', default=10, subtype='NONE', min=1, max=50)
     bpy.types.Scene.sna_libraries = bpy.props.EnumProperty(name='Libraries', description='', items=sna_libraries_enum_items, update=sna_update_sna_libraries_C21AD)
     bpy.types.Scene.sna_cmaps = bpy.props.EnumProperty(name='cmaps', description='', items=sna_cmaps_enum_items)
-    bpy.utils.register_class(SNA_PT_COLORMAPS_4CB30)
+    bpy.utils.register_class(SNA_PT_COLORMAPS_3B067)
     bpy.utils.register_class(SNA_OT_Create_Node_86A6A)
     bpy.utils.register_class(SNA_OT_Update_Node_026A5)
-    bpy.app.handlers.load_pre.append(load_pre_handler_CFC23)
+    bpy.app.handlers.load_post.append(load_post_handler_CFC23)
+    bpy.utils.register_class(SNA_OT_Rescan_Ad48F)
     bpy.utils.register_class(SNA_AddonPreferences_94E08)
     bpy.utils.register_class(SNA_OT_Install_Deps_A414D)
 
@@ -374,9 +414,10 @@ def unregister():
     del bpy.types.Scene.sna_cmaps
     del bpy.types.Scene.sna_libraries
     del bpy.types.Scene.sna_steps
-    bpy.utils.unregister_class(SNA_PT_COLORMAPS_4CB30)
+    bpy.utils.unregister_class(SNA_PT_COLORMAPS_3B067)
     bpy.utils.unregister_class(SNA_OT_Create_Node_86A6A)
     bpy.utils.unregister_class(SNA_OT_Update_Node_026A5)
-    bpy.app.handlers.load_pre.remove(load_pre_handler_CFC23)
+    bpy.app.handlers.load_post.remove(load_post_handler_CFC23)
+    bpy.utils.unregister_class(SNA_OT_Rescan_Ad48F)
     bpy.utils.unregister_class(SNA_AddonPreferences_94E08)
     bpy.utils.unregister_class(SNA_OT_Install_Deps_A414D)
