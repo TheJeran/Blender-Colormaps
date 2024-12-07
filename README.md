@@ -5,36 +5,42 @@
 This is an addon to quickly and efficiently load colormaps into the colorramp node in Blender
 
 ## Installation
-Simply install the .zip from this repository in Blender. After activating the addon you will be notified if you need to install some dependencies.
+Simply install the .zip from this repository in Blender. 
+This addon uses matplotlib which needs to be installed to the blender python environment. After activating the addon you will be notified if you need to install matplotlib.
 
+![image](https://github.com/user-attachments/assets/10ddee0f-860d-496f-8c3b-d9077beaa714)
 
-![missing_dependencies](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/15325fa0-3fa5-40d5-9861-1a1e5b567688)
-
+### _Matplotlib not installing?_
+On windows there can be permission errors that prevent you from writing to the site-packages folder. If that happens you need to manaully install matplotlib there
 
 
 ## Usage
-Find it in the tools section of the shader menu
+Find it in the tools section of node menus
 
-![image](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/01d51e70-40ec-4c99-9eea-933bf88df7db)
+After install, everything will be blank. Click the search button to scan the librarys folder. It will rescan automatically each time you start blender
 
-Currently there are three color libraries: [Matplotlib](https://matplotlib.org/stable/tutorials/colors/colormaps.html), [MetBrewer](https://github.com/BlakeRMills/MetBrewer), and [Cmocean](https://matplotlib.org/cmocean/)
-Please create an issue if you know of a good library that's easy to implement.
+![image](https://github.com/user-attachments/assets/2ea02348-ddec-4f14-9386-4ec6962d0247)
 
-![image](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/c5c33fe4-afc7-4b84-b5c3-7433170de0e3)
+Currently there are **six** built-in color libraries: [Matplotlib](https://matplotlib.org/stable/tutorials/colors/colormaps.html), [MetBrewer](https://github.com/BlakeRMills/MetBrewer), [Cmocean](https://matplotlib.org/cmocean/), [scientific](https://pratiman-91.github.io/colormaps/docs/collections/scientific), [carbonplan](https://pratiman-91.github.io/colormaps/docs/collections/carbonplan), and [tableau](https://pratiman-91.github.io/colormaps/docs/collections/tableau)
 
-
+![image](https://github.com/user-attachments/assets/6a70a41f-79da-4e3e-9c14-e0d92230a540)
 
 You can update ColorRamp nodes when one is selected
 
-![image](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/87eff42a-fe24-4102-96b9-e32a6a6fdd94)
-
+![image](https://github.com/user-attachments/assets/2358f8fd-0dae-459e-a7b9-f6530de26a32)
 
 Gamma-correction ensures that colors in Blender are perceived the same way as in matplotlib
 
-<img width="628" alt="image" src="https://github.com/ArtemKirsanov/Blender-Colormaps/assets/72463859/20f922e2-dbc3-4d61-a91f-fb0d3c8b811b">
+![image](https://github.com/user-attachments/assets/af2f75ef-a9af-4a6c-b301-f01632dfc5b8)
 
-**note:** The Color Maps dropdown will be blank immediately after install. Simply re-select/choose another color library to repopulate it. This is a quirk that only occurs after install
+## Custom ColorMaps
+You can add additional and custom libraries by creating folders in the colormaps folder (`blender_colormaps/assets/colormaps`) in the install folder of the addon.
 
+![image](https://github.com/user-attachments/assets/1cb49c38-47f3-4352-999b-cbb4ab44931a)
+
+![image](https://github.com/user-attachments/assets/88dc607f-3d48-4624-bfc5-5686ae9fc7f3)
+
+Colormaps are `.rgb` format. 
 
 ## Examples
 ![german_tree_ages_credits](https://github.com/TheJeran/Blender-Colormaps/assets/76405582/e043d7d0-66ac-444e-8b4a-60a599b2f1ef)
