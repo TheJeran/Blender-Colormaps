@@ -13,6 +13,12 @@ This addon uses matplotlib which needs to be installed to the blender python env
 ### _Matplotlib not installing?_
 On windows there can be permission errors that prevent you from writing to the site-packages folder. If that happens you need to manaully install matplotlib there
 
+You can do this by opening the windows command prompt with admin privileges and running
+
+```"C:\Program Files\Blender Foundation\Blender 4.3\4.3\python\bin\python.exe" -m pip install --target="C:\Program Files\Blender Foundation\Blender 4.3\4.3\python\lib\site-packages" matplotlib```
+
+Thanks @SchmidL 
+
 
 ## Usage
 Find it in the tools section of node menus
