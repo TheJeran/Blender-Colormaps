@@ -15,7 +15,7 @@ On windows there can be permission errors that prevent you from writing to the s
 
 You can do this by opening the windows command prompt with admin privileges and running
 
-```"C:\Program Files\Blender Foundation\Blender 4.3\4.3\python\bin\python.exe" -m pip install --target="C:\Program Files\Blender Foundation\Blender 4.3\4.3\python\lib\site-packages" matplotlib```
+```"C:\Program Files\Blender Foundation\Blender 4.x\4.x\python\bin\python.exe" -m pip install --target="C:\Program Files\Blender Foundation\Blender 4.x\4.x\python\lib\site-packages" matplotlib```
 
 Thanks @SchmidL 
 
