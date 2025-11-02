@@ -6,18 +6,6 @@ This is an addon to quickly and efficiently load colormaps into the colorramp no
 
 ## Installation
 Simply install the .zip from this repository in Blender. 
-This addon uses matplotlib which needs to be installed to the blender python environment. After activating the addon you will be notified if you need to install matplotlib.
-
-![image](https://github.com/user-attachments/assets/10ddee0f-860d-496f-8c3b-d9077beaa714)
-
-### _Matplotlib not installing?_
-On windows there can be permission errors that prevent you from writing to the site-packages folder. If that happens you need to manaully install matplotlib there
-
-You can do this by opening the windows command prompt with admin privileges and running
-
-```"C:\Program Files\Blender Foundation\Blender 4.x\4.x\python\bin\python.exe" -m pip install --target="C:\Program Files\Blender Foundation\Blender 4.x\4.x\python\lib\site-packages" matplotlib```
-
-Thanks @SchmidL 
 
 
 ## Usage
