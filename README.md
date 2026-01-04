@@ -31,7 +31,7 @@ After install, everything will be blank. Click the search button to scan the lib
 
 ![image](https://github.com/user-attachments/assets/2ea02348-ddec-4f14-9386-4ec6962d0247)
 
-Currently there are **six** built-in color libraries: [Matplotlib](https://matplotlib.org/stable/tutorials/colors/colormaps.html), [MetBrewer](https://github.com/BlakeRMills/MetBrewer), [Cmocean](https://matplotlib.org/cmocean/), [scientific](https://pratiman-91.github.io/colormaps/docs/collections/scientific), [carbonplan](https://pratiman-91.github.io/colormaps/docs/collections/carbonplan), and [tableau](https://pratiman-91.github.io/colormaps/docs/collections/tableau)
+Currently there are **seven** built-in color libraries: 
 
 ![image](https://github.com/user-attachments/assets/6a70a41f-79da-4e3e-9c14-e0d92230a540)
 
