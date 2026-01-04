@@ -33,7 +33,8 @@ After install, everything will be blank. Click the search button to scan the lib
 
 Currently there are **seven** built-in color libraries: 
 
-![image](https://github.com/user-attachments/assets/6a70a41f-79da-4e3e-9c14-e0d92230a540)
+<img width="240" height="261" alt="image" src="https://github.com/user-attachments/assets/dddeb27c-9e2f-45c4-8c3e-12cf07a27bba" />
+
 
 You can update ColorRamp nodes when one is selected
 
