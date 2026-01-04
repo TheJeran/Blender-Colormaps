@@ -7,6 +7,22 @@ This is an addon to quickly and efficiently load colormaps into the colorramp no
 ## Installation
 Simply install the .zip from this repository in Blender. 
 
+## Colormaps
+[matplotlib](https://matplotlib.org/stable/users/explain/colors/colormaps.html)
+
+[metbrewer](https://github.com/user-attachments/assets/53ed3f37-f9b2-447d-abf9-54b98fdfe7d4)
+
+[scientific](https://pratiman-91.github.io/colormaps/docs/collections/scientific)
+
+[carbonplan](https://pratiman-91.github.io/colormaps/docs/collections/carbonplan)
+
+[Tableau](https://pratiman-91.github.io/colormaps/docs/collections/tableau)
+
+[cmocean](https://matplotlib.org/cmocean/)
+
+[NASA GIS](https://www.giss.nasa.gov/tools/panoply/colorbars/)
+
+
 
 ## Usage
 Find it in the tools section of node menus
