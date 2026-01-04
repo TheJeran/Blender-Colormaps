@@ -12,16 +12,16 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 bl_info = {
-    "name" : "Blender Colors",
+    "name" : "Blender Colormaps",
     "author" : "Jeran Poehls", 
-    "description" : "",
-    "blender" : (3, 0, 0),
+    "description" : "Import curated or custom colormaps into Blender",
+    "blender" : (4, 2, 0),
     "version" : (1, 3, 0),
     "location" : "",
     "warning" : "",
     "doc_url": "https://github.com/TheJeran/Blender-Colormaps", 
     "tracker_url": "", 
-    "category" : "Material" 
+    "category" : "3D View" 
 }
 
 
@@ -29,22 +29,23 @@ import bpy
 import bpy.utils.previews
 import os
 from bpy.app.handlers import persistent
-import matplotlib
-import subprocess
 
 
 addon_keymaps = {}
 _icons = None
-blender_colormaps = {'sna_cmaps': [], }
-dependencies = {'sna_deps_installed': False, }
+colormaps = {'sna_cmaps': [], 'sna_libraries': [], }
 
 
-def property_exists(prop_path, glob, loc):
-    try:
-        eval(prop_path, glob, loc)
-        return True
-    except:
-        return False
+def sna_update_sna_libraries_BA574(self, context):
+    sna_updated_prop = self.sna_libraries
+    library = sna_updated_prop
+    cmap_path = os.path.join(os.path.dirname(__file__), 'assets', 'colormaps')
+    cmaps = None
+    files = os.listdir(f"{cmap_path}/{library}")
+    cmaps = [i.split('.')[0] for i in files if i.endswith('.rgb')]
+    colormaps['sna_cmaps'] = []
+    for i_DFA7F in range(len(cmaps)):
+        colormaps['sna_cmaps'].append([cmaps[i_DFA7F], cmaps[i_DFA7F], '', 0])
 
 
 _item_map = dict()
@@ -57,162 +58,17 @@ def make_enum_item(_id, name, descr, preview_id, uid):
     return _item_map[lookup]
 
 
-def sna_update_sna_libraries_C21AD(self, context):
-    sna_updated_prop = self.sna_libraries
-    library = sna_updated_prop
-    cmaps = None
-    import matplotlib
-    base_location = os.path.dirname(os.path.abspath(__file__))
-    if library != 'matplotlib':
-        items = os.listdir(f'{base_location}/colormaps/{library}')
-        cmaps = [i.split('.')[0] for i in items if i.endswith('rgb')]
-    else:
-        cmaps = sorted(matplotlib.colormaps(), key = lambda x: x.lower())
-    blender_colormaps['sna_cmaps'] = []
-    for i_CE42B in range(len(cmaps)):
-        blender_colormaps['sna_cmaps'].append([cmaps[i_CE42B], cmaps[i_CE42B], '', 0])
+def property_exists(prop_path, glob, loc):
+    try:
+        eval(prop_path, glob, loc)
+        return True
+    except:
+        return False
 
 
-class SNA_PT_COLORMAPS_091FC(bpy.types.Panel):
-    bl_label = 'Colormaps'
-    bl_idname = 'SNA_PT_COLORMAPS_091FC'
-    bl_space_type = 'NODE_EDITOR'
-    bl_region_type = 'UI'
-    bl_context = ''
-    bl_category = 'Tool'
-    bl_order = 0
-    bl_ui_units_x=0
-
-    @classmethod
-    def poll(cls, context):
-        return not (False)
-
-    def draw_header(self, context):
-        layout = self.layout
-
-    def draw(self, context):
-        layout = self.layout
-        col_D76F1 = layout.column(heading='', align=False)
-        col_D76F1.alert = False
-        col_D76F1.enabled = True
-        col_D76F1.active = True
-        col_D76F1.use_property_split = False
-        col_D76F1.use_property_decorate = False
-        col_D76F1.scale_x = 1.0
-        col_D76F1.scale_y = 1.0
-        col_D76F1.alignment = 'Expand'.upper()
-        col_D76F1.operator_context = "INVOKE_DEFAULT" if True else "EXEC_DEFAULT"
-        split_74CE5 = col_D76F1.split(factor=0.5, align=False)
-        split_74CE5.alert = False
-        split_74CE5.enabled = True
-        split_74CE5.active = True
-        split_74CE5.use_property_split = False
-        split_74CE5.use_property_decorate = False
-        split_74CE5.scale_x = 1.0
-        split_74CE5.scale_y = 1.0
-        split_74CE5.alignment = 'Expand'.upper()
-        if not True: split_74CE5.operator_context = "EXEC_DEFAULT"
-        split_74CE5.label(text='Library', icon_value=0)
-        split_74CE5.prop(bpy.context.scene, 'sna_libraries', text='', icon_value=0, emboss=True)
-        split_0C2BA = col_D76F1.split(factor=0.5, align=False)
-        split_0C2BA.alert = False
-        split_0C2BA.enabled = True
-        split_0C2BA.active = True
-        split_0C2BA.use_property_split = False
-        split_0C2BA.use_property_decorate = False
-        split_0C2BA.scale_x = 1.0
-        split_0C2BA.scale_y = 1.0
-        split_0C2BA.alignment = 'Expand'.upper()
-        if not True: split_0C2BA.operator_context = "EXEC_DEFAULT"
-        split_0C2BA.label(text='Color Map', icon_value=0)
-        split_0C2BA.prop(bpy.context.scene, 'sna_cmaps', text='', icon_value=0, emboss=True)
-        split_1D120 = col_D76F1.split(factor=0.5, align=False)
-        split_1D120.alert = False
-        split_1D120.enabled = True
-        split_1D120.active = True
-        split_1D120.use_property_split = False
-        split_1D120.use_property_decorate = False
-        split_1D120.scale_x = 1.0
-        split_1D120.scale_y = 1.0
-        split_1D120.alignment = 'Expand'.upper()
-        if not True: split_1D120.operator_context = "EXEC_DEFAULT"
-        split_1D120.label(text='Steps', icon_value=0)
-        split_1D120.prop(bpy.context.scene, 'sna_steps', text='', icon_value=0, emboss=True)
-        op = col_D76F1.operator('sna.create_node_86a6a', text='Create Color Ramp', icon_value=0, emboss=True, depress=False)
-        if property_exists("bpy.context.active_node.select", globals(), locals()):
-            if ((bpy.context.active_node.type == 'VALTORGB') and bpy.context.active_node.select):
-                op = col_D76F1.operator('sna.update_node_026a5', text='Update Selected', icon_value=0, emboss=True, depress=False)
-
-
-def sna_libraries_enum_items(self, context):
-    enum_items = [['matplotlib', 'matplotlib', '', 0], ['metbrewer', 'metbrewer', '', 0], ['carbonplan', 'carbonplan', '', 0], ['scientific', 'scientific', '', 0], ['tableau', 'tableau', '', 0], ['cmocean', 'cmocean', '', 0]]
-    return [make_enum_item(item[0], item[1], item[2], item[3], i) for i, item in enumerate(enum_items)]
-
-
-def sna_cmaps_enum_items(self, context):
-    enum_items = blender_colormaps['sna_cmaps']
-    return [make_enum_item(item[0], item[1], item[2], item[3], i) for i, item in enumerate(enum_items)]
-
-
-def sna_update_node_CE1D2():
-    steps = bpy.context.scene.sna_steps
-    cmap_name = bpy.context.scene.sna_cmaps
-    library = bpy.context.scene.sna_libraries
-    if library == 'matplotlib':
-        cmap = matplotlib.cm.get_cmap(cmap_name)
-    else:
-        cmap = parse_rgb_to_colormap(f'{base_location}/colormaps/{library}/{cmap_name}.rgb')
-    cramp = bpy.context.active_node
-    el = cramp.color_ramp.elements
-    count=0
-    for idx in range(len(el.values())-1):
-        el.remove(el[idx-count])
-        count +=1 
-    dis = 1/(steps-1)
-    x  = 0
-    for r in range(steps-1):
-        el.new(x)
-        x += dis
-    for e in el:
-        pos = e.position
-        e.color = [i**2.2 for i in cmap(pos)]
-    cramp.label = cmap_name
-    return
-
-
-def sna_create_node_BF021():
-    steps = bpy.context.scene.sna_steps
-    cmap_name = bpy.context.scene.sna_cmaps
-    library = bpy.context.scene.sna_libraries
-    material = bpy.context.active_object.active_material
-    modifier = bpy.context.object.modifiers.active
-    if material is not None and bpy.context.area.ui_type == 'ShaderNodeTree':
-        nodes = material.node_tree.nodes
-        cramp = nodes.new(type='ShaderNodeValToRGB')
-    elif modifier is not None and bpy.context.area.ui_type == 'GeometryNodeTree':
-        if modifier.type == 'NODES':
-            nodes = modifier.node_group.nodes
-            cramp = nodes.new(type='ShaderNodeValToRGB')
-    if library == 'matplotlib':
-        cmap = matplotlib.cm.get_cmap(cmap_name)
-    else:
-        cmap = parse_rgb_to_colormap(f'{base_location}/colormaps/{library}/{cmap_name}.rgb')
-    el = cramp.color_ramp.elements
-    dis = 1/(steps-1)
-    x   = dis
-    for r in range(steps-2):
-        el.new(x)
-        x += dis
-    for e in el:
-        pos = e.position
-        e.color = [i**2.2 for i in cmap(pos)]
-    cramp.label = cmap_name
-    return
-
-
-class SNA_OT_Create_Node_86A6A(bpy.types.Operator):
-    bl_idname = "sna.create_node_86a6a"
-    bl_label = "Create Node"
+class SNA_OT_Rescan_1472F(bpy.types.Operator):
+    bl_idname = "sna.rescan_1472f"
+    bl_label = "Rescan"
     bl_description = ""
     bl_options = {"REGISTER", "UNDO"}
 
@@ -223,47 +79,27 @@ class SNA_OT_Create_Node_86A6A(bpy.types.Operator):
         return not False
 
     def execute(self, context):
-        sna_create_node_BF021()
+        cmaps_path = os.path.join(os.path.dirname(__file__), 'assets', 'colormaps')
+        libraries = None
+        files = os.listdir(cmaps_path)
+        libraries = [i for i in files if os.path.isdir(f'{cmaps_path}/{i}')]
+        print(libraries)
+        colormaps['sna_libraries'] = []
+        for i_78D83 in range(len(libraries)):
+            colormaps['sna_libraries'].append([libraries[i_78D83], libraries[i_78D83], '', 0])
+        bpy.context.scene.sna_libraries = 'matplotlib'
         return {"FINISHED"}
 
     def invoke(self, context, event):
         return self.execute(context)
 
 
-class SNA_OT_Update_Node_026A5(bpy.types.Operator):
-    bl_idname = "sna.update_node_026a5"
-    bl_label = "Update Node"
-    bl_description = ""
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        sna_update_node_CE1D2()
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
+import numpy as np
 
 
-@persistent
-def load_post_handler_C8ED6(dummy):
-    bpy.context.scene.sna_libraries = 'matplotlib'
-
-
-base_location = os.path.dirname(os.path.abspath(__file__))
-
-
-from matplotlib.colors import LinearSegmentedColormap
-
-
-def parse_rgb_to_colormap(file_path):
+def parse_rgb_to_colormap(file_path,discrete=False):
     """
-    Parses an .RGB file and returns a continuous Matplotlib colormap.
+    Parses an .RGB file and returns a continuous/discrete Matplotlib colormap.
     Parameters:
         file_path (str): Path to the .RGB file.
     Returns:
@@ -282,37 +118,108 @@ def parse_rgb_to_colormap(file_path):
     if not colors:
         raise ValueError("No valid RGB values found in the file.")
     # Create the colormap
-    colormap = LinearSegmentedColormap.from_list(file_path.split('/')[-1].split('.')[0], colors)
+    colormap = SimpleColormap(colors)
     return colormap
 
 
-class SNA_AddonPreferences_94E08(bpy.types.AddonPreferences):
-    bl_idname = 'blender_colors'
+class SimpleColormap:
+    """
+    Simplified colormap for RGB tuple lists.
+    Assumes colors are always provided as (r, g, b) tuples with values in [0, 1].
+    """
 
-    def draw(self, context):
-        if not (False):
-            layout = self.layout 
-            if dependencies['sna_deps_installed']:
-                pass
-            else:
-                col_34AA7 = layout.column(heading='', align=False)
-                col_34AA7.alert = False
-                col_34AA7.enabled = True
-                col_34AA7.active = True
-                col_34AA7.use_property_split = False
-                col_34AA7.use_property_decorate = False
-                col_34AA7.scale_x = 1.0
-                col_34AA7.scale_y = 1.0
-                col_34AA7.alignment = 'Expand'.upper()
-                col_34AA7.operator_context = "INVOKE_DEFAULT" if True else "EXEC_DEFAULT"
-                col_34AA7.label(text='Matplotlib MISSING!', icon_value=619)
-                op = col_34AA7.operator('sna.install_deps_a414d', text='Install Matplotlib', icon_value=0, emboss=True, depress=False)
+    def __init__(self, colors, name='simple_cmap'):
+        """
+        Parameters
+        ----------
+        colors : list of tuples
+            List of (r, g, b) tuples with values in [0, 1].
+        name : str, optional
+            The name of the colormap.
+        """
+        self.name = name
+        self.colors = colors
+        self.N = len(colors)
+        self._lut = None
+        self._init()
+
+    def _init(self):
+        """Generate the lookup table from RGB tuples."""
+        # Convert list of RGB tuples to RGBA array (add alpha=1.0)
+        self._lut = np.zeros((self.N, 4), float)
+        for i, (r, g, b) in enumerate(self.colors):
+            self._lut[i] = [r, g, b, 1.0]
+
+    def __call__(self, X, alpha=None, bytes=False):
+        """
+        Map values to colors.
+        Parameters
+        ----------
+        X : float or array-like
+            Values in [0.0, 1.0] to map to colors.
+        alpha : float, optional
+            Override alpha value.
+        bytes : bool
+            If True, return uint8 values [0, 255], else float [0, 1].
+        Returns
+        -------
+        RGBA color(s) corresponding to X.
+        """
+        xa = np.array(X, copy=True)
+        # Map [0, 1] to indices [0, N-1]
+        xa = np.clip(xa * self.N, 0, self.N - 1).astype(int)
+        # Get colors from lookup table
+        rgba = self._lut[xa]
+        # Override alpha if provided
+        if alpha is not None:
+            rgba[..., -1] = np.clip(alpha, 0, 1)
+        # Convert to bytes if requested
+        if bytes:
+            rgba = (rgba * 255).astype(np.uint8)
+        # Return as tuple if input was scalar
+        if not np.iterable(X):
+            return tuple(rgba)
+        return rgba
+
+    def reversed(self, name=None):
+        """Return a reversed version of the colormap."""
+        if name is None:
+            name = self.name + "_r"
+        return SimpleColormap(list(reversed(self.colors)), name=name)
 
 
-class SNA_OT_Install_Deps_A414D(bpy.types.Operator):
-    bl_idname = "sna.install_deps_a414d"
-    bl_label = "Install Deps"
-    bl_description = ""
+def sna_create_node_8D210():
+    steps = bpy.context.scene.sna_steps
+    cmap_name = bpy.context.scene.sna_cmaps
+    library = bpy.context.scene.sna_libraries
+    cmap_path = os.path.join(os.path.dirname(__file__), 'assets', 'colormaps')
+    material = bpy.context.active_object.active_material
+    modifier = bpy.context.object.modifiers.active
+    if material is not None and bpy.context.area.ui_type == 'ShaderNodeTree':
+        nodes = material.node_tree.nodes
+        cramp = nodes.new(type='ShaderNodeValToRGB')
+    elif modifier is not None and bpy.context.area.ui_type == 'GeometryNodeTree':
+        if modifier.type == 'NODES':
+            nodes = modifier.node_group.nodes
+            cramp = nodes.new(type='ShaderNodeValToRGB')  
+    cmap = parse_rgb_to_colormap(f'{cmap_path}\\{library}\\{cmap_name}.rgb')
+    el = cramp.color_ramp.elements
+    dis = 1/(steps-1)
+    x   = dis
+    for r in range(steps-2):
+        el.new(x)
+        x += dis
+    for e in el:
+        pos = e.position
+        e.color = [i**2.2 for i in cmap(pos)]
+    cramp.label = cmap_name
+    return
+
+
+class SNA_OT_Create_Node_Df11C(bpy.types.Operator):
+    bl_idname = "sna.create_node_df11c"
+    bl_label = "Create Node"
+    bl_description = "Create a color ramp from the selected Colormap"
     bl_options = {"REGISTER", "UNDO"}
 
     @classmethod
@@ -322,39 +229,173 @@ class SNA_OT_Install_Deps_A414D(bpy.types.Operator):
         return not False
 
     def execute(self, context):
-        py_path = sys.executable
-        subprocess.call([py_path, '-m', 'pip', 'install', 'matplotlib'])
+        sna_create_node_8D210()
         return {"FINISHED"}
 
     def invoke(self, context, event):
         return self.execute(context)
 
 
-good = None
-good = True
-try:
-    import matplotlib
+def sna_update_node_AFB3D():
+    steps = bpy.context.scene.sna_steps
+    cmap_name = bpy.context.scene.sna_cmaps
+    library = bpy.context.scene.sna_libraries
+    cmap_path = os.path.join(os.path.dirname(__file__), 'assets', 'colormaps')
+    cmap = parse_rgb_to_colormap(f'{cmap_path}/{library}/{cmap_name}.rgb')
+    cramp = bpy.context.active_node
+    el = cramp.color_ramp.elements
+    count=0
+    for idx in range(len(el.values())-1):
+        el.remove(el[idx-count])
+        count +=1 
+    dis = 1/(steps-1)
+    x  = 0
+    for r in range(steps-1):
+        el.new(x)
+        x += dis
+    for e in el:
+        pos = e.position
+        e.color = [i**2.2 for i in cmap(pos)]
+    cramp.label = cmap_name
+    return
 
 
-except:
-    good = False
+class SNA_OT_Update_Node_17224(bpy.types.Operator):
+    bl_idname = "sna.update_node_17224"
+    bl_label = "Update Node"
+    bl_description = "Update the selected color ramp"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        sna_update_node_AFB3D()
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
 
 
-dependencies['sna_deps_installed'] = good
+def sna_cmaps_enum_items(self, context):
+    enum_items = colormaps['sna_cmaps']
+    return [make_enum_item(item[0], item[1], item[2], item[3], i) for i, item in enumerate(enum_items)]
+
+
+@persistent
+def load_post_handler_18205(dummy):
+    cmaps_path = os.path.join(os.path.dirname(__file__), 'assets', 'colormaps')
+    libraries = None
+    files = os.listdir(cmaps_path)
+    libraries = [i for i in files if os.path.isdir(f'{cmaps_path}/{i}')]
+    print(libraries)
+    colormaps['sna_libraries'] = []
+    for i_E2B55 in range(len(libraries)):
+        colormaps['sna_libraries'].append([libraries[i_E2B55], libraries[i_E2B55], '', 0])
+    bpy.context.scene.sna_libraries = 'matplotlib'
+
+
+def sna_libraries_enum_items(self, context):
+    enum_items = colormaps['sna_libraries']
+    return [make_enum_item(item[0], item[1], item[2], item[3], i) for i, item in enumerate(enum_items)]
+
+
+class SNA_PT_COLORMAPS_879CE(bpy.types.Panel):
+    bl_label = 'Colormaps'
+    bl_idname = 'SNA_PT_COLORMAPS_879CE'
+    bl_space_type = 'NODE_EDITOR'
+    bl_region_type = 'UI'
+    bl_context = ''
+    bl_order = 0
+    bl_parent_id = 'NODE_PT_active_tool'
+    bl_ui_units_x=0
+
+    @classmethod
+    def poll(cls, context):
+        return not (False)
+
+    def draw_header(self, context):
+        layout = self.layout
+
+    def draw(self, context):
+        layout = self.layout
+        col_A7E4B = layout.column(heading='', align=False)
+        col_A7E4B.alert = False
+        col_A7E4B.enabled = True
+        col_A7E4B.active = True
+        col_A7E4B.use_property_split = False
+        col_A7E4B.use_property_decorate = False
+        col_A7E4B.scale_x = 1.0
+        col_A7E4B.scale_y = 1.0
+        col_A7E4B.alignment = 'Expand'.upper()
+        col_A7E4B.operator_context = "INVOKE_DEFAULT" if True else "EXEC_DEFAULT"
+        split_6AEA7 = col_A7E4B.split(factor=0.4000000059604645, align=False)
+        split_6AEA7.alert = False
+        split_6AEA7.enabled = True
+        split_6AEA7.active = True
+        split_6AEA7.use_property_split = False
+        split_6AEA7.use_property_decorate = False
+        split_6AEA7.scale_x = 1.0
+        split_6AEA7.scale_y = 1.0
+        split_6AEA7.alignment = 'Expand'.upper()
+        if not True: split_6AEA7.operator_context = "EXEC_DEFAULT"
+        split_84EC1 = split_6AEA7.split(factor=0.7599999904632568, align=False)
+        split_84EC1.alert = False
+        split_84EC1.enabled = True
+        split_84EC1.active = True
+        split_84EC1.use_property_split = False
+        split_84EC1.use_property_decorate = False
+        split_84EC1.scale_x = 1.0
+        split_84EC1.scale_y = 1.0
+        split_84EC1.alignment = 'Expand'.upper()
+        if not True: split_84EC1.operator_context = "EXEC_DEFAULT"
+        split_84EC1.label(text='Library', icon_value=0)
+        op = split_84EC1.operator('sna.rescan_1472f', text='', icon_value=111, emboss=True, depress=False)
+        split_6AEA7.prop(bpy.context.scene, 'sna_libraries', text='', icon_value=0, emboss=True)
+        split_8B78A = col_A7E4B.split(factor=0.4000000059604645, align=False)
+        split_8B78A.alert = False
+        split_8B78A.enabled = True
+        split_8B78A.active = True
+        split_8B78A.use_property_split = False
+        split_8B78A.use_property_decorate = False
+        split_8B78A.scale_x = 1.0
+        split_8B78A.scale_y = 1.0
+        split_8B78A.alignment = 'Expand'.upper()
+        if not True: split_8B78A.operator_context = "EXEC_DEFAULT"
+        split_8B78A.label(text='Color Map', icon_value=0)
+        split_8B78A.prop(bpy.context.scene, 'sna_cmaps', text='', icon_value=0, emboss=True)
+        split_6F791 = col_A7E4B.split(factor=0.4000000059604645, align=False)
+        split_6F791.alert = False
+        split_6F791.enabled = True
+        split_6F791.active = True
+        split_6F791.use_property_split = False
+        split_6F791.use_property_decorate = False
+        split_6F791.scale_x = 1.0
+        split_6F791.scale_y = 1.0
+        split_6F791.alignment = 'Expand'.upper()
+        if not True: split_6F791.operator_context = "EXEC_DEFAULT"
+        split_6F791.label(text='Steps', icon_value=0)
+        split_6F791.prop(bpy.context.scene, 'sna_steps', text='', icon_value=0, emboss=True)
+        op = col_A7E4B.operator('sna.create_node_df11c', text='Create Color Ramp', icon_value=791, emboss=True, depress=False)
+        if property_exists("bpy.context.active_node.select", globals(), locals()):
+            if (bpy.context.active_node.select and (bpy.context.active_node.type == 'VALTORGB')):
+                op = col_A7E4B.operator('sna.update_node_17224', text='Update Selected', icon_value=0, emboss=True, depress=False)
 
 
 def register():
     global _icons
     _icons = bpy.utils.previews.new()
-    bpy.types.Scene.sna_steps = bpy.props.IntProperty(name='Steps', description='', default=10, subtype='NONE', min=1, max=50)
-    bpy.types.Scene.sna_libraries = bpy.props.EnumProperty(name='Libraries', description='', items=sna_libraries_enum_items, update=sna_update_sna_libraries_C21AD)
+    bpy.types.Scene.sna_steps = bpy.props.IntProperty(name='Steps', description='', default=10, subtype='NONE')
+    bpy.types.Scene.sna_libraries = bpy.props.EnumProperty(name='Libraries', description='', items=sna_libraries_enum_items, update=sna_update_sna_libraries_BA574)
     bpy.types.Scene.sna_cmaps = bpy.props.EnumProperty(name='cmaps', description='', items=sna_cmaps_enum_items)
-    bpy.utils.register_class(SNA_PT_COLORMAPS_091FC)
-    bpy.utils.register_class(SNA_OT_Create_Node_86A6A)
-    bpy.utils.register_class(SNA_OT_Update_Node_026A5)
-    bpy.app.handlers.load_post.append(load_post_handler_C8ED6)
-    bpy.utils.register_class(SNA_AddonPreferences_94E08)
-    bpy.utils.register_class(SNA_OT_Install_Deps_A414D)
+    bpy.utils.register_class(SNA_OT_Rescan_1472F)
+    bpy.utils.register_class(SNA_OT_Create_Node_Df11C)
+    bpy.utils.register_class(SNA_OT_Update_Node_17224)
+    bpy.app.handlers.load_post.append(load_post_handler_18205)
+    bpy.utils.register_class(SNA_PT_COLORMAPS_879CE)
 
 
 def unregister():
@@ -368,9 +409,8 @@ def unregister():
     del bpy.types.Scene.sna_cmaps
     del bpy.types.Scene.sna_libraries
     del bpy.types.Scene.sna_steps
-    bpy.utils.unregister_class(SNA_PT_COLORMAPS_091FC)
-    bpy.utils.unregister_class(SNA_OT_Create_Node_86A6A)
-    bpy.utils.unregister_class(SNA_OT_Update_Node_026A5)
-    bpy.app.handlers.load_post.remove(load_post_handler_C8ED6)
-    bpy.utils.unregister_class(SNA_AddonPreferences_94E08)
-    bpy.utils.unregister_class(SNA_OT_Install_Deps_A414D)
+    bpy.utils.unregister_class(SNA_OT_Rescan_1472F)
+    bpy.utils.unregister_class(SNA_OT_Create_Node_Df11C)
+    bpy.utils.unregister_class(SNA_OT_Update_Node_17224)
+    bpy.app.handlers.load_post.remove(load_post_handler_18205)
+    bpy.utils.unregister_class(SNA_PT_COLORMAPS_879CE)
