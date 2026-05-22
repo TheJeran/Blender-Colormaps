@@ -202,7 +202,7 @@ def sna_create_node_8D210():
         if modifier.type == 'NODES':
             nodes = modifier.node_group.nodes
             cramp = nodes.new(type='ShaderNodeValToRGB')  
-    cmap = parse_rgb_to_colormap(f'{cmap_path}\\{library}\\{cmap_name}.rgb')
+    cmap = parse_rgb_to_colormap(f'{cmap_path}/{library}/{cmap_name}.rgb')
     el = cramp.color_ramp.elements
     dis = 1/(steps-1)
     x   = dis
