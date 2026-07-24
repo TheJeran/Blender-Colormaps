@@ -29,12 +29,11 @@ Find it in the tools section of node menus
 
 After install, everything will be blank. Click the search button to scan the librarys folder. It will rescan automatically each time you start blender
 
-![image](https://github.com/user-attachments/assets/2ea02348-ddec-4f14-9386-4ec6962d0247)
+<img width="253" height="273" alt="image" src="https://github.com/user-attachments/assets/2e84ecca-70ff-4c7a-83ac-804fa1a87aa3" />
 
 Currently there are **seven** built-in color libraries: 
 
 <img width="240" height="261" alt="image" src="https://github.com/user-attachments/assets/dddeb27c-9e2f-45c4-8c3e-12cf07a27bba" />
-
 
 You can update ColorRamp nodes when one is selected
 
@@ -43,6 +42,12 @@ You can update ColorRamp nodes when one is selected
 Gamma-correction ensures that colors in Blender are perceived the same way as in matplotlib
 
 ![image](https://github.com/user-attachments/assets/af2f75ef-a9af-4a6c-b301-f01632dfc5b8)
+
+## Preview
+A small preview is visible each time you change colormaps
+
+<img width="245" height="274" alt="image" src="https://github.com/user-attachments/assets/5fd2899a-eabb-4b01-b3df-ba24bf4e709c" />
+
 
 ## Custom ColorMaps
 You can add additional and custom libraries by creating folders in the colormaps folder (`blender_colormaps/assets/colormaps`) in the install folder of the addon.
