@@ -22,6 +22,8 @@ Simply install the .zip from this repository in Blender.
 
 [NASA GIS](https://www.giss.nasa.gov/tools/panoply/colorbars/)
 
+[LTC Palettes](https://github.com/loukesio/ltc-color-palettes)
+
 
 
 ## Usage
