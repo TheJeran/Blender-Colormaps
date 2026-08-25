@@ -16,7 +16,7 @@ bl_info = {
     "author" : "Jeran Poehls", 
     "description" : "Import curated or custom colormaps into Blender",
     "blender" : (4, 2, 0),
-    "version" : (1, 4, 0),
+    "version" : (1, 5, 0),
     "location" : "",
     "warning" : "",
     "doc_url": "https://github.com/TheJeran/Blender-Colormaps", 
@@ -30,6 +30,7 @@ import bpy.utils.previews
 import os
 from collections.abc import Sized
 from bpy.app.handlers import persistent
+import math
 
 
 
@@ -48,7 +49,7 @@ def string_to_icon(value):
 
 addon_keymaps = {}
 _icons = None
-visual_scripting_editor = {'sna_cmaps': [], 'sna_libraries': [], 'sna_preview': 0, }
+visual_scripting_editor = {'sna_cmaps': [], 'sna_raw_cmap': [], 'sna_libraries': [], 'sna_preview': 0, }
 
 
 def property_exists(prop_path, glob, loc):
@@ -77,8 +78,10 @@ def sna_update_sna_libraries_96FE5(self, context):
     files = os.listdir(f"{cmap_path}/{library}")
     cmaps = [i.split('.')[0] for i in files if i.endswith('.rgb')]
     visual_scripting_editor['sna_cmaps'] = []
+    visual_scripting_editor['sna_raw_cmap'] = []
     for i_EEE6A in range(len(cmaps)):
         visual_scripting_editor['sna_cmaps'].append([cmaps[i_EEE6A], cmaps[i_EEE6A], '', 0])
+        visual_scripting_editor['sna_raw_cmap'].append(cmaps[i_EEE6A])
     cmap_name = bpy.context.scene.sna_cmaps
     library = bpy.context.scene.sna_libraries
     cmaps = os.path.join(os.path.dirname(__file__), 'assets', 'colormaps')
@@ -145,9 +148,9 @@ def sna_update_sna_cmaps_A6B7E(self, context):
     visual_scripting_editor['sna_preview'] = img_id
 
 
-class SNA_PT_COLORMAPS_4B498(bpy.types.Panel):
+class SNA_PT_COLORMAPS_2D74F(bpy.types.Panel):
     bl_label = 'Colormaps'
-    bl_idname = 'SNA_PT_COLORMAPS_4B498'
+    bl_idname = 'SNA_PT_COLORMAPS_2D74F'
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'UI'
     bl_context = ''
@@ -197,7 +200,7 @@ class SNA_PT_COLORMAPS_4B498(bpy.types.Panel):
         split_CC9B1.label(text='Library', icon_value=0)
         op = split_CC9B1.operator('sna.rescan_666e2', text='', icon_value=string_to_icon('VIEWZOOM'), emboss=True, depress=False)
         split_3409E.prop(bpy.context.scene, 'sna_libraries', text='', icon_value=0, emboss=True)
-        split_5B2A9 = col_4D304.split(factor=0.4000000059604645, align=False)
+        split_5B2A9 = col_4D304.split(factor=0.27222222089767456, align=False)
         split_5B2A9.alert = False
         split_5B2A9.enabled = True
         split_5B2A9.active = True
@@ -208,7 +211,41 @@ class SNA_PT_COLORMAPS_4B498(bpy.types.Panel):
         split_5B2A9.alignment = 'Expand'.upper()
         if not True: split_5B2A9.operator_context = "EXEC_DEFAULT"
         split_5B2A9.label(text='Color Map', icon_value=0)
-        split_5B2A9.prop(bpy.context.scene, 'sna_cmaps', text='', icon_value=0, emboss=True)
+        split_81DFF = split_5B2A9.split(factor=0.2888889014720917, align=False)
+        split_81DFF.alert = False
+        split_81DFF.enabled = True
+        split_81DFF.active = True
+        split_81DFF.use_property_split = False
+        split_81DFF.use_property_decorate = False
+        split_81DFF.scale_x = 1.0
+        split_81DFF.scale_y = 1.0
+        split_81DFF.alignment = 'Expand'.upper()
+        if not True: split_81DFF.operator_context = "EXEC_DEFAULT"
+        if (len(visual_scripting_editor['sna_raw_cmap']) > 0):
+            split_DA61D = split_81DFF.split(factor=0.5, align=False)
+            split_DA61D.alert = False
+            split_DA61D.enabled = True
+            split_DA61D.active = True
+            split_DA61D.use_property_split = False
+            split_DA61D.use_property_decorate = False
+            split_DA61D.scale_x = 1.0
+            split_DA61D.scale_y = 1.0
+            split_DA61D.alignment = 'Expand'.upper()
+            if not True: split_DA61D.operator_context = "EXEC_DEFAULT"
+            op = split_DA61D.operator('sna.decrement_colormaps_b13b8', text='Previous Colormap', icon_value=string_to_icon('TRIA_LEFT'), emboss=True, depress=False)
+            op = split_DA61D.operator('sna.increment_cmap_260c9', text='Next Colormap', icon_value=string_to_icon('TRIA_RIGHT'), emboss=True, depress=False)
+        else:
+            split_702AC = split_81DFF.split(factor=0.5, align=False)
+            split_702AC.alert = False
+            split_702AC.enabled = True
+            split_702AC.active = True
+            split_702AC.use_property_split = False
+            split_702AC.use_property_decorate = False
+            split_702AC.scale_x = 1.0
+            split_702AC.scale_y = 1.0
+            split_702AC.alignment = 'Expand'.upper()
+            if not True: split_702AC.operator_context = "EXEC_DEFAULT"
+        split_81DFF.prop(bpy.context.scene, 'sna_cmaps', text='', icon_value=0, emboss=True)
         split_2459A = col_4D304.split(factor=0.5, align=False)
         split_2459A.alert = False
         split_2459A.enabled = True
@@ -466,17 +503,59 @@ def sna_cmaps_enum_items(self, context):
     return [make_enum_item(item[0], item[1], item[2], item[3], i) for i, item in enumerate(enum_items)]
 
 
+class SNA_OT_Increment_Cmap_260C9(bpy.types.Operator):
+    bl_idname = "sna.increment_cmap_260c9"
+    bl_label = "Increment_Cmap"
+    bl_description = "Grab next colormap"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        bpy.context.scene.sna_cmaps = visual_scripting_editor['sna_raw_cmap'][int(eval("(visual_scripting_editor['sna_raw_cmap'].index(bpy.context.scene.sna_cmaps) + 1) % len(visual_scripting_editor['sna_raw_cmap'])"))]
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Decrement_Colormaps_B13B8(bpy.types.Operator):
+    bl_idname = "sna.decrement_colormaps_b13b8"
+    bl_label = "Decrement Colormaps"
+    bl_description = "Grab previous colormap"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        bpy.context.scene.sna_cmaps = visual_scripting_editor['sna_raw_cmap'][int(eval("(visual_scripting_editor['sna_raw_cmap'].index(bpy.context.scene.sna_cmaps) - 1) % len(visual_scripting_editor['sna_raw_cmap'])"))]
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
 def register():
     global _icons
     _icons = bpy.utils.previews.new()
     bpy.types.Scene.sna_steps = bpy.props.IntProperty(name='steps', description='', default=10, subtype='NONE')
     bpy.types.Scene.sna_libraries = bpy.props.EnumProperty(name='Libraries', description='', items=sna_libraries_enum_items, update=sna_update_sna_libraries_96FE5)
     bpy.types.Scene.sna_cmaps = bpy.props.EnumProperty(name='cmaps', description='', items=sna_cmaps_enum_items, update=sna_update_sna_cmaps_A6B7E)
-    bpy.utils.register_class(SNA_PT_COLORMAPS_4B498)
+    bpy.utils.register_class(SNA_PT_COLORMAPS_2D74F)
     bpy.utils.register_class(SNA_OT_Rescan_666E2)
     bpy.app.handlers.load_post.append(load_post_handler_D80C7)
     bpy.utils.register_class(SNA_OT_Update_Node_48605)
     bpy.utils.register_class(SNA_OT_Create_Node_30Af9)
+    bpy.utils.register_class(SNA_OT_Increment_Cmap_260C9)
+    bpy.utils.register_class(SNA_OT_Decrement_Colormaps_B13B8)
 
 
 def unregister():
@@ -490,8 +569,10 @@ def unregister():
     del bpy.types.Scene.sna_cmaps
     del bpy.types.Scene.sna_libraries
     del bpy.types.Scene.sna_steps
-    bpy.utils.unregister_class(SNA_PT_COLORMAPS_4B498)
+    bpy.utils.unregister_class(SNA_PT_COLORMAPS_2D74F)
     bpy.utils.unregister_class(SNA_OT_Rescan_666E2)
     bpy.app.handlers.load_post.remove(load_post_handler_D80C7)
     bpy.utils.unregister_class(SNA_OT_Update_Node_48605)
     bpy.utils.unregister_class(SNA_OT_Create_Node_30Af9)
+    bpy.utils.unregister_class(SNA_OT_Increment_Cmap_260C9)
+    bpy.utils.unregister_class(SNA_OT_Decrement_Colormaps_B13B8)
